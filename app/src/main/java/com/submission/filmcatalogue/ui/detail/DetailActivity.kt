@@ -2,10 +2,13 @@ package com.submission.filmcatalogue.ui.detail
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.submission.filmcatalogue.R
 import com.submission.filmcatalogue.data.local.entity.MovieEntity
 import com.submission.filmcatalogue.data.local.entity.TvShowEntity
@@ -16,6 +19,8 @@ import com.submission.filmcatalogue.vo.Status
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
+
+    private var menu: Menu? = null
 
     private val viewModel: DetailViewModel by viewModels {
         ViewModelFactory.getInstance(this)
@@ -35,7 +40,6 @@ class DetailActivity : AppCompatActivity() {
         viewModel.setSelectedItem(itemId)
 
         if (intent.getStringExtra(TIPE) == "movie") {
-            menuItemClicked("Movie")
             viewModel.movieItem.observe(this, {
                 if (it != null) {
                     when (it.status) {
@@ -51,6 +55,7 @@ class DetailActivity : AppCompatActivity() {
                             binding.imgBackdrop.visibility = View.VISIBLE
                             binding.viewDetail.visibility = View.VISIBLE
                             bindDetailMovie(it.data!!)
+                            menuItemClicked("Movie")
                         }
                         Status.ERROR -> {
                             binding.loading.visibility = View.VISIBLE
@@ -65,7 +70,6 @@ class DetailActivity : AppCompatActivity() {
             })
         }
         else if (intent.getStringExtra(TIPE) == "tv") {
-            menuItemClicked("TvShow")
             viewModel.tvShowItem.observe(this, {
                 if (it != null) {
                     when (it.status) {
@@ -81,6 +85,7 @@ class DetailActivity : AppCompatActivity() {
                             binding.imgBackdrop.visibility = View.VISIBLE
                             binding.viewDetail.visibility = View.VISIBLE
                             bindDetailTvShow(it.data!!)
+                            menuItemClicked("TvShow")
                         }
                         Status.ERROR -> {
                             binding.loading.visibility = View.VISIBLE
@@ -106,6 +111,9 @@ class DetailActivity : AppCompatActivity() {
             tvRilis.text = data.releaseDate
             tvScore.text = data.voteAverage.toString()
             tvoverview.text = data.overview
+            topAppBar.apply {
+                favoriteState(menu.findItem(R.id.btnFav), data.favorite)
+            }
         }
     }
 
@@ -140,6 +148,25 @@ class DetailActivity : AppCompatActivity() {
             tvRilis.text = data.firstAirDate
             tvScore.text = data.voteAverage.toString()
             tvoverview.text = data.overview
+            topAppBar.apply {
+                favoriteState(menu.findItem(R.id.btnFav), data.favorite)
+            }
+        }
+    }
+
+    private fun favoriteState(menu: MenuItem, state: Boolean?) {
+        menu.apply {
+            icon = if (state!!) {
+                ContextCompat.getDrawable(
+                    this@DetailActivity,
+                    R.drawable.ic_baseline_favorite_red_24
+                )
+            } else {
+                ContextCompat.getDrawable(
+                    this@DetailActivity,
+                    R.drawable.ic_baseline_favorite_24
+                )
+            }
         }
     }
 

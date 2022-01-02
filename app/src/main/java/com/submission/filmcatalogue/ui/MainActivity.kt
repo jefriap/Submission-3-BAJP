@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.topAppBar.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.btnFav -> {
+                R.id.btnFavorite -> {
                     val favIntent = Intent(this, FavoriteActivity::class.java)
                     startActivity(favIntent)
                     true

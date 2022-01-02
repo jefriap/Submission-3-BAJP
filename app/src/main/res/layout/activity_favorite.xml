@@ -13,10 +13,12 @@
         android:background="?attr/colorTab">
 
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="@string/favorite"
-            app:titleTextColor="@color/white"/>
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24"/>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
@@ -25,7 +27,6 @@
             android:layout_marginTop="10dp"
             android:background="?attr/colorTab"
             app:tabRippleColor="?attr/colorSecondary"
-            app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
             app:tabIndicatorColor="@color/white"
             app:tabIndicatorHeight="3dp"
             app:tabTextColor="@android:color/white"/>

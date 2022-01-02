@@ -27,6 +27,12 @@ class FavoriteActivity : AppCompatActivity() {
         TabLayoutMediator(tabs, viewPager) {tab, position ->
             tab.text = resources.getString(TAB_TILES[position])
         }.attach()
+
+        //-- Handle navigation icon press --//
+        binding.topAppBar.setNavigationOnClickListener {
+            onBackPressed()
+        }
+
     }
 
     companion object {
